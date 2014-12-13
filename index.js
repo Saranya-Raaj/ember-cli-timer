@@ -2,5 +2,5 @@
 'use strict';
 
 module.exports = {
-  name: 'timer'
+  name: 'ember-cli-timer'
 };
