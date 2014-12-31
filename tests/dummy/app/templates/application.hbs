@@ -1,3 +1,33 @@
-<h2 id='title'>Welcome to Ember.js</h2>
-
+<h2 id='title'>Welcome</h2>
+<div class="panel panel-default">
+  <div class="panel-heading">Timer with auto start</div>
+  <div class="panel-body">
+    {{x-timer autoStart="true" format="HH:MM:SS" stopRequired="false"}}
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">Timer with auto start  and stop</div>
+  <div class="panel-body">
+    {{x-timer autoStart="true" format="HH:MM:SS" stopRequired="true"}}
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">A typical timer</div>
+  <div class="panel-body">
+    {{x-timer format="HH:MM:SS" stopRequired="true"}}
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">Timer with start time and auto start set</div>
+  <div class="panel-body">
+    <div>Start time set at 300 seconds</div>
+    {{x-timer autoStart="false" startTime="300" format="HH:MM:SS" stopRequired="true"}}
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">Stop watch</div>
+  <div class="panel-body">
+    {{x-timer autoStart="false" startTime="300" format="HH:MM:SS" isStopWatch="true"}}
+  </div>
+</div>
 {{outlet}}
