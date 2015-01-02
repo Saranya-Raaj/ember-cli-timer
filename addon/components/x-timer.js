@@ -43,7 +43,7 @@ export default Ember.Component.extend({
       var timerId = this.get("timerId");
       var duration = this.get("duration");
       Ember.run.cancel(timerId);
-      this.sendAction("timerStopped", duration);
+      this.sendAction("updateRecordedTime", duration);
       this.set("isRunning", false);
       if(reset) {
         this.set("startTime", 0);
@@ -55,7 +55,7 @@ export default Ember.Component.extend({
       var isRunning = this.get("isRunning");
       if(isRunning) {
         this.set("startTime", Formatter.getSecs(duration));
-        this.sendAction("timerPaused", duration);
+        this.sendAction("updatePausedTime", duration);
         this.send("stop");
       } else {
         this.send("start");
