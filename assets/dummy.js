@@ -68,7 +68,7 @@ define('dummy/templates/application', ['exports', 'ember'], function (exports, E
     var buffer = '', stack1, helper, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
 
 
-    data.buffer.push("<h2 id='title'>Welcome</h2>\n<div class=\"panel panel-default\">\n  <div class=\"panel-heading\">Timer with auto start</div>\n  <div class=\"panel-body\">\n    ");
+    data.buffer.push("<div class=\"container\">\n<h2 id='title'>Welcome</h2>\n<div class=\"panel panel-default\">\n  <div class=\"panel-heading\">Timer with auto start</div>\n  <div class=\"panel-body\">\n    ");
     data.buffer.push(escapeExpression((helper = helpers['x-timer'] || (depth0 && depth0['x-timer']),options={hash:{
       'autoStart': ("true"),
       'format': ("HH:MM:SS"),
@@ -99,7 +99,7 @@ define('dummy/templates/application', ['exports', 'ember'], function (exports, E
       'format': ("HH:MM:SS"),
       'isStopWatch': ("true")
     },hashTypes:{'autoStart': "STRING",'startTime': "STRING",'format': "STRING",'isStopWatch': "STRING"},hashContexts:{'autoStart': depth0,'startTime': depth0,'format': depth0,'isStopWatch': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "x-timer", options))));
-    data.buffer.push("\n  </div>\n</div>\n");
+    data.buffer.push("\n  </div>\n</div>\n</div>\n");
     stack1 = helpers._triageMustache.call(depth0, "outlet", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
     if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
     data.buffer.push("\n");
