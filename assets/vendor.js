@@ -76329,116 +76329,113 @@ define("ember-inflector/system/string",
   });
  global.DS = requireModule('ember-data')['default'];
  })(this);
-;define("ember-cli-timer/components/x-timer", 
-  ["ember","ember-cli-timer/utils/timeformatter","exports"],
-  function(__dependency1__, __dependency2__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
-    var Formatter = __dependency2__["default"];
+;define('ember-cli-timer/components/x-timer', ['exports', 'ember', 'ember-cli-timer/utils/timeformatter'], function (exports, Ember, Formatter) {
 
-    __exports__["default"] = Ember.Component.extend({
-      startTimeStamp: 0,
-      duration: 0,
-      autoStart: false,
-      startTime: 0,
-      stopRequired: true,
-      isStopWatch: false,
-      isRunning: false,
+  'use strict';
+
+  exports['default'] = Ember['default'].Component.extend({
+    startTimeStamp: 0,
+    duration: 0,
+    autoStart: false,
+    startTime: 0,
+    stopRequired: true,
+    isStopWatch: false,
+    isRunning: false,
+    
+    didInsertElement: function(){
+      if(this.get("autoStart")){
+        this.send("start");
+      }
+    },
+
+    showStartBtn: function(){
+      return this.get("isStopWatch") || !this.get("autoStart");
+    }.property('autoStart', 'isStopWatch'),
       
-      didInsertElement: function(){
-        if(this.get("autoStart")){
+    run: function(){
+      var self = this;
+      var startTimeStamp = this.get("startTimeStamp");
+      this.set('timerId', Ember['default'].run.later(this, function() {
+        var timeElapsed = Date.now() - startTimeStamp;
+        var secs = timeElapsed / 1000;
+        self.set("duration", Formatter['default'].getTimefromSecs(secs, "HH:MM:SS"));
+        self.run();
+      }, 25));  
+    },
+    
+    actions: {
+      start: function(){
+        var startTime = this.get("startTime") * 1000;
+        this.set("startTimeStamp", Date.now() - startTime);
+        this.set("isRunning", true);
+        this.run();
+      },
+
+      stop: function(reset){
+        var timerId = this.get("timerId");
+        var duration = this.get("duration");
+        Ember['default'].run.cancel(timerId);
+        this.sendAction("updateRecordedTime", duration);
+        this.set("isRunning", false);
+        if(reset) {
+          this.set("startTime", 0);
+        }
+      },
+            
+      pause: function(){
+        var duration = this.get("duration");
+        var isRunning = this.get("isRunning");
+        if(isRunning) {
+          this.set("startTime", Formatter['default'].getSecs(duration));
+          this.sendAction("updatePausedTime", duration);
+          this.send("stop");
+        } else {
           this.send("start");
         }
-      },
-
-      showStartBtn: function(){
-        return this.get("isStopWatch") || !this.get("autoStart");
-      }.property('autoStart', 'isStopWatch'),
-        
-      run: function(){
-        var self = this;
-        var startTimeStamp = this.get("startTimeStamp");
-        this.set('timerId', Ember.run.later(this, function() {
-          var timeElapsed = Date.now() - startTimeStamp;
-          var secs = timeElapsed / 1000;
-          self.set("duration", Formatter.getTimefromSecs(secs, "HH:MM:SS"));
-          self.run();
-        }, 25));  
-      },
-      
-      actions: {
-        start: function(){
-          var startTime = this.get("startTime") * 1000;
-          this.set("startTimeStamp", Date.now() - startTime);
-          this.set("isRunning", true);
-          this.run();
-        },
-
-        stop: function(reset){
-          var timerId = this.get("timerId");
-          var duration = this.get("duration");
-          Ember.run.cancel(timerId);
-          this.sendAction("updateRecordedTime", duration);
-          this.set("isRunning", false);
-          if(reset) {
-            this.set("startTime", 0);
-          }
-        },
-              
-        pause: function(){
-          var duration = this.get("duration");
-          var isRunning = this.get("isRunning");
-          if(isRunning) {
-            this.set("startTime", Formatter.getSecs(duration));
-            this.sendAction("updatePausedTime", duration);
-            this.send("stop");
-          } else {
-            this.send("start");
-          }
-        }
-      },
-      
-      willDestroyElement: function() {
-        var timerId = this.get("timerId");
-        Ember.run.cancel(timerId);
       }
-      
-    });
+    },
+    
+    willDestroyElement: function() {
+      var timerId = this.get("timerId");
+      Ember['default'].run.cancel(timerId);
+    }
+    
   });
-define("ember-cli-timer/utils/timeformatter", 
-  ["ember","exports"],
-  function(__dependency1__, __exports__) {
-    "use strict";
-    var Ember = __dependency1__["default"];
 
-    __exports__["default"] = Ember.Object.create({
-      getTimefromSecs: function(seconds, format){
-        if(format === "seconds"){
-          return seconds;
-        }
-        var h = Math.floor(seconds / 3600);
-        seconds = seconds % 3600;
-        var m = Math.floor(seconds / 60);
-        var s = Math.floor(seconds % 60);
-        h = h < 10 ? "0" + h : h;
-        m = m < 10 ? "0" + m : m;
-        s = s < 10 ? "0" + s : s;
-        if(format === "HH:MM"){
-          return h + ":" + m;
-        } else if(format === "HH:MM:SS") {
-          return h + ":" + m + ":" + s;
-        }
-      },
-      
-      getSecs: function(time){
-        var arr = time.split(':');
-        var h = arr[0];
-        var m = arr[1];
-        var s = arr[2]; 
-        return (parseFloat(h) * 3600 + parseFloat(m) * 60 + parseFloat(s));
+});
+define('ember-cli-timer/utils/timeformatter', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Object.create({
+    getTimefromSecs: function(seconds, format){
+      if(format === "seconds"){
+        return seconds;
       }
-    });
+      var h = Math.floor(seconds / 3600);
+      seconds = seconds % 3600;
+      var m = Math.floor(seconds / 60);
+      var s = Math.floor(seconds % 60);
+      h = h < 10 ? "0" + h : h;
+      m = m < 10 ? "0" + m : m;
+      s = s < 10 ? "0" + s : s;
+      if(format === "HH:MM"){
+        return h + ":" + m;
+      } else if(format === "HH:MM:SS") {
+        return h + ":" + m + ":" + s;
+      }
+    },
+    
+    getSecs: function(time){
+      var arr = time.split(':');
+      var h = arr[0];
+      var m = arr[1];
+      var s = arr[2]; 
+      return (parseFloat(h) * 3600 + parseFloat(m) * 60 + parseFloat(s));
+    }
   });
+
+});
 define("ember-cli-timer", ["ember-cli-timer/index","exports"], function(__index__, __exports__) {
   "use strict";
   Object.keys(__index__).forEach(function(key){
