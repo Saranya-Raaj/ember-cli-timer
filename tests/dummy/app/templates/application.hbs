@@ -1,34 +1,76 @@
 <div class="container">
 <h2 id='title'>Welcome</h2>
 <div class="panel panel-default">
-  <div class="panel-heading">Timer with auto start</div>
+  <div class="panel-heading">A Running Timer</div>
   <div class="panel-body">
-    {{x-timer autoStart="true" format="HH:MM:SS" stopRequired="false"}}
+    A simple seconds ticking timer
+    {{x-timer autoStart="true" format="HH:MM:SS" stopRequired=false}}
+  </div>
+  <div class="panel-footer">
+    {{zero-clipboard text=basicTimer label="Copy" innerClass="btn btn-xs btn-default" classNames="pull-right cursor-pointer"}}
+    <code>
+      {{{basicTimer}}}
+    </code>
   </div>
 </div>
 <div class="panel panel-default">
-  <div class="panel-heading">Timer with auto start  and stop</div>
+  <div class="panel-heading">Timer with auto start and stop</div>
   <div class="panel-body">
-    {{x-timer autoStart="true" format="HH:MM:SS" stopRequired="true"}}
+    Timer given with stop option. On stop action, you can get the elpased time.
+    {{x-timer autoStart="true" format="HH:MM:SS"}}
+  </div>
+  <div class="panel-footer">
+    {{zero-clipboard text=basicTimerWithStop label="Copy" innerClass="btn btn-xs btn-default" classNames="pull-right cursor-pointer"}}
+    <code>
+      {{{basicTimerWithStop}}}
+    </code>
   </div>
 </div>
 <div class="panel panel-default">
-  <div class="panel-heading">A typical timer</div>
+  <div class="panel-heading">Timer with start and stop</div>
   <div class="panel-body">
-    {{x-timer format="HH:MM:SS" stopRequired="true"}}
+    Timer with start and stop action. Start the timer at any time.
+    {{x-timer format="HH:MM:SS"}}
+  </div>
+  <div class="panel-footer">
+    {{zero-clipboard text=basicTimerStartStop label="Copy" innerClass="btn btn-xs btn-default" classNames="pull-right cursor-pointer"}}
+    <code>
+      {{{basicTimerStartStop}}}
+    </code>
   </div>
 </div>
 <div class="panel panel-default">
-  <div class="panel-heading">Timer with start time and auto start set</div>
+  <div class="panel-heading">Timer set with start time</div>
   <div class="panel-body">
-    <div>Start time set at 300 seconds</div>
-    {{x-timer autoStart="false" startTime="300" format="HH:MM:SS" stopRequired="true"}}
+    <div>Start time set at 300 seconds.Timer will start from 300 seconds~5 minutes. Capture the <code>updateRecordedTime</code> action on the stop event. Check the arguments array for the elapsed time.</div>
+    {{x-timer autoStart="false" startTime="300" format="HH:MM:SS"}}
+  </div>
+  <div class="panel-footer">
+    {{zero-clipboard text=basicTimerStartTime label="Copy" innerClass="btn btn-xs btn-default" classNames="pull-right cursor-pointer"}}
+    <code>
+      {{{basicTimerStartTime}}}
+    </code>
   </div>
 </div>
 <div class="panel panel-default">
   <div class="panel-heading">Stop watch</div>
   <div class="panel-body">
-    {{x-timer autoStart="false" startTime="300" format="HH:MM:SS" isStopWatch="true"}}
+    Stop watch with start time set at 5 minutes.  
+    {{x-timer autoStart="false" startTime="300" format="HH:MM:SS" isStopWatch="true" updatePausedTime="updatePausedTime"}}
+    <div>
+      Lap
+      <ul>
+        {{#each time in laps}}
+        <li>{{time}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+  <div class="panel-footer">
+    {{zero-clipboard text=stopWatch label="Copy" innerClass="btn btn-xs btn-default" classNames="pull-right cursor-pointer"}}
+    <code>
+      {{{stopWatch}}}
+    </code>
   </div>
 </div>
 </div>

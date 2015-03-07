@@ -8,6 +8,7 @@ export default Ember.Component.extend({
   startTime: 0,
   stopRequired: true,
   isStopWatch: false,
+  //TODO: check the usage of this variable
   isRunning: false,
   
   didInsertElement: function(){
