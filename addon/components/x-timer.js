@@ -11,10 +11,18 @@ export default Ember.Component.extend({
   //TODO: check the usage of this variable
   isRunning: false,
   
-  didInsertElement: function(){
-    if(this.get("autoStart")){
+  _init: function _init() {
+    if (this.get("autoStart")) {
       this.send("start");
     }
+  },
+  
+  didInsertElement: function(){
+    this._init();
+  },
+  
+  didUpdateAttrs: function didUpdateAttrs() {
+    this._init();
   },
 
   showStartBtn: function(){
